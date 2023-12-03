@@ -3,13 +3,20 @@ package com.shoplaptop.ui;
 import java.awt.EventQueue;
 
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.shoplaptop.dao.BienTheDAO;
 import com.shoplaptop.dao.HangDAO;
@@ -50,6 +57,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
@@ -294,6 +304,7 @@ public class LaptopManager extends JDialog {
 	private JLabel lblHang;
 	private JLabel lblDongLaptop;
 	private JLabel lblNamSanXuat;
+	private List<BienThe> listBT = new ArrayList<BienThe>();
 
 	/**
 	 * Launch the application.
@@ -318,7 +329,7 @@ public class LaptopManager extends JDialog {
 	 */
 	public LaptopManager() {
 		setTitle("Laptop Manager");
-		setBounds(100, 100, 975, 748);
+		setBounds(100, 100, 975, 750);
 		setLocationRelativeTo(null);
 		setIconImage(XImage.getAppIcon());
 		getContentPane().setLayout(null);
@@ -717,7 +728,9 @@ public class LaptopManager extends JDialog {
 				String maBienThe = (String) tableBienThe.getValueAt(index, 0);
 				String maLaptop = (String) tableBienThe.getValueAt(index, 1);
 				setLaptop(new LaptopDAO().selectById(maLaptop));
-				String selectByMaBT = "SELECT Serial.ID, ID_BienThe, dbo.BienThe.MaBienThe, SerialNumber, TrangThai FROM dbo.Serial JOIN dbo.BienThe ON BienThe.ID = Serial.ID_BienThe WHERE TrangThai = 1 AND dbo.BienThe.MaBienThe = ?";
+				String selectByMaBT = "SELECT Serial.ID, ID_BienThe, TenLaptop, dbo.BienThe.MaBienThe, SerialNumber, Gia, TrangThai \r\n"
+						+ "FROM dbo.Serial JOIN dbo.BienThe ON BienThe.ID = Serial.ID_BienThe JOIN dbo.Laptop ON Laptop.ID = BienThe.ID_Laptop \r\n"
+						+ "WHERE TrangThai = 1 AND dbo.BienThe.MaBienThe = ?";
 				fillTableSerial(new SerialNumberDAO().selectBySQL(selectByMaBT, maBienThe));
 			}
 		});
@@ -961,7 +974,8 @@ public class LaptopManager extends JDialog {
 							int below_TonKho = Integer.valueOf(txtToiThieu.getText());
 							int above_TonKho = Integer.valueOf(txtToiDa.getText());
 							if (below_TonKho >= 0 && above_TonKho > below_TonKho) {
-								fillTableBienThe_TonKho(new BienTheDAO().selectBySQL(selectBT_Below_TonKho, txtToiThieu.getText()));
+								listBT = new BienTheDAO().selectBySQL(selectBT_Below_TonKho, txtToiThieu.getText());
+								fillTableBienThe_TonKho(listBT);
 							}else {
 								MsgBox.alert(getContentPane(), "Định mức tối đa lớn hơn định mức tối thiểu");
 							}
@@ -974,7 +988,8 @@ public class LaptopManager extends JDialog {
 								int below_TonKho = Integer.valueOf(txtToiThieu.getText());
 								int above_TonKho = Integer.valueOf(txtToiDa.getText());
 								if (below_TonKho >= 0 && above_TonKho > below_TonKho) {
-									fillTableBienThe_TonKho(new BienTheDAO().selectBySQL(selectBT_TonKho, txtToiThieu.getText(), txtToiDa.getText()));
+									listBT = new BienTheDAO().selectBySQL(selectBT_TonKho, txtToiThieu.getText(), txtToiDa.getText());
+									fillTableBienThe_TonKho(listBT);
 								}else {
 									MsgBox.alert(getContentPane(), "Định mức tối đa lớn hơn định mức tối thiểu");
 								}
@@ -987,7 +1002,8 @@ public class LaptopManager extends JDialog {
 									int below_TonKho = Integer.valueOf(txtToiThieu.getText());
 									int above_TonKho = Integer.valueOf(txtToiDa.getText());
 									if (below_TonKho >= 0 && above_TonKho > below_TonKho) {
-										fillTableBienThe_TonKho(new BienTheDAO().selectBySQL(selectBT_Above_TonKho, txtToiDa.getText()));
+										listBT = new BienTheDAO().selectBySQL(selectBT_Above_TonKho, txtToiDa.getText());
+										fillTableBienThe_TonKho(listBT);
 									}else {
 										MsgBox.alert(getContentPane(), "Định mức tối đa lớn hơn định mức tối thiểu");
 									}
@@ -999,7 +1015,8 @@ public class LaptopManager extends JDialog {
 					}
 				}
 				if (cboTonKho.getSelectedItem() == "Hết hàng") {
-					fillTableBienThe_TonKho(new BienTheDAO().selectBySQL(selectBT_HetHang_TonKho));
+					listBT = new BienTheDAO().selectBySQL(selectBT_HetHang_TonKho);
+					fillTableBienThe_TonKho(listBT);
 				}
 			}
 		});
@@ -1023,7 +1040,8 @@ public class LaptopManager extends JDialog {
 						int below_TonKho = Integer.valueOf(txtToiThieu.getText());
 						int above_TonKho = Integer.valueOf(txtToiDa.getText());
 						if (below_TonKho >= 0 && above_TonKho > below_TonKho) {
-							fillTableBienThe_TonKho(new BienTheDAO().selectBySQL(selectBT_Below_TonKho, txtToiThieu.getText()));
+							listBT = new BienTheDAO().selectBySQL(selectBT_Below_TonKho, txtToiThieu.getText());
+							fillTableBienThe_TonKho(listBT);
 						}else {
 							MsgBox.alert(getContentPane(), "Định mức tối đa lớn hơn định mức tối thiểu");
 						}
@@ -1036,7 +1054,8 @@ public class LaptopManager extends JDialog {
 							int below_TonKho = Integer.valueOf(txtToiThieu.getText());
 							int above_TonKho = Integer.valueOf(txtToiDa.getText());
 							if (below_TonKho >= 0 && above_TonKho > below_TonKho) {
-								fillTableBienThe_TonKho(new BienTheDAO().selectBySQL(selectBT_TonKho, txtToiThieu.getText(), txtToiDa.getText()));
+								listBT = new BienTheDAO().selectBySQL(selectBT_TonKho, txtToiThieu.getText(), txtToiDa.getText());
+								fillTableBienThe_TonKho(listBT);
 							}else {
 								MsgBox.alert(getContentPane(), "Định mức tối đa lớn hơn định mức tối thiểu");
 							}
@@ -1049,7 +1068,8 @@ public class LaptopManager extends JDialog {
 								int below_TonKho = Integer.valueOf(txtToiThieu.getText());
 								int above_TonKho = Integer.valueOf(txtToiDa.getText());
 								if (below_TonKho >= 0 && above_TonKho > below_TonKho) {
-									fillTableBienThe_TonKho(new BienTheDAO().selectBySQL(selectBT_Above_TonKho, txtToiDa.getText()));
+									listBT = new BienTheDAO().selectBySQL(selectBT_Above_TonKho, txtToiDa.getText());
+									fillTableBienThe_TonKho(listBT);
 								}else {
 									MsgBox.alert(getContentPane(), "Định mức tối đa lớn hơn định mức tối thiểu");
 								}
@@ -1082,7 +1102,8 @@ public class LaptopManager extends JDialog {
 						int below_TonKho = Integer.valueOf(txtToiThieu.getText());
 						int above_TonKho = Integer.valueOf(txtToiDa.getText());
 						if (below_TonKho >= 0 && above_TonKho > below_TonKho) {
-							fillTableBienThe_TonKho(new BienTheDAO().selectBySQL(selectBT_Below_TonKho, txtToiThieu.getText()));
+							listBT = new BienTheDAO().selectBySQL(selectBT_Below_TonKho, txtToiThieu.getText());
+							fillTableBienThe_TonKho(listBT);
 						}else {
 							MsgBox.alert(getContentPane(), "Định mức tối đa lớn hơn định mức tối thiểu");
 						}
@@ -1095,7 +1116,8 @@ public class LaptopManager extends JDialog {
 							int below_TonKho = Integer.valueOf(txtToiThieu.getText());
 							int above_TonKho = Integer.valueOf(txtToiDa.getText());
 							if (below_TonKho >= 0 && above_TonKho > below_TonKho) {
-								fillTableBienThe_TonKho(new BienTheDAO().selectBySQL(selectBT_TonKho, txtToiThieu.getText(), txtToiDa.getText()));
+								listBT = new BienTheDAO().selectBySQL(selectBT_TonKho, txtToiThieu.getText(), txtToiDa.getText());
+								fillTableBienThe_TonKho(listBT);
 							}else {
 								MsgBox.alert(getContentPane(), "Định mức tối đa lớn hơn định mức tối thiểu");
 							}
@@ -1108,7 +1130,8 @@ public class LaptopManager extends JDialog {
 								int below_TonKho = Integer.valueOf(txtToiThieu.getText());
 								int above_TonKho = Integer.valueOf(txtToiDa.getText());
 								if (below_TonKho >= 0 && above_TonKho > below_TonKho) {
-									fillTableBienThe_TonKho(new BienTheDAO().selectBySQL(selectBT_Above_TonKho, txtToiDa.getText()));
+									listBT = new BienTheDAO().selectBySQL(selectBT_Above_TonKho, txtToiDa.getText());
+									fillTableBienThe_TonKho(listBT);
 								}else {
 									MsgBox.alert(getContentPane(), "Định mức tối đa lớn hơn định mức tối thiểu");
 								}
@@ -1121,6 +1144,16 @@ public class LaptopManager extends JDialog {
 			}
 			
         });
+		
+		btnExport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (listBT.size() != 0) {
+					exportFile(listBT);
+				}else {
+					MsgBox.alert(getContentPane(), "List is empty");
+				}
+			}
+		});
 		
 	}
 
@@ -2702,5 +2735,64 @@ public class LaptopManager extends JDialog {
 		lblHang.setText(laptop.getTenHang());
 		lblDongLaptop.setText(laptop.getTenDong());
 		lblNamSanXuat.setText(laptop.getNamSanXuat()+"");
+	}
+	
+	public void exportFile(List<BienThe> listBT_TonKho) {
+		JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel files", "xls", "xlsx");
+        fileChooser.setFileFilter(filter);
+        if (fileChooser.showSaveDialog(getContentPane()) == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+
+            String filePath = fileToSave.getAbsolutePath();
+            if (!filePath.toLowerCase().endsWith(".xlsx") && !filePath.toLowerCase().endsWith(".xls")) {
+                fileToSave = new File(filePath + ".xlsx");
+            }
+
+            Workbook workbook = new XSSFWorkbook(); 
+            Sheet sheet = workbook.createSheet("Danh sách"); 
+
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("Mã biến thể");
+            headerRow.createCell(1).setCellValue("Mã Laptop");
+            headerRow.createCell(2).setCellValue("CPU");
+            headerRow.createCell(3).setCellValue("RAM");
+            headerRow.createCell(4).setCellValue("Màn hình");
+            headerRow.createCell(5).setCellValue("GPU");
+            headerRow.createCell(6).setCellValue("Ổ cứng");
+            headerRow.createCell(7).setCellValue("Màu sắc");
+            headerRow.createCell(8).setCellValue("Hệ điều hành");
+            headerRow.createCell(9).setCellValue("Giá");
+            headerRow.createCell(10).setCellValue("Số lượng");
+
+            for (int i = 0; i < listBT_TonKho.size(); i++) {
+                BienThe bienThe = listBT_TonKho.get(i);
+                Row row = sheet.createRow(i + 1);
+                row.createCell(0).setCellValue(bienThe.getMaBienThe());
+                row.createCell(1).setCellValue(bienThe.getMaLaptop());
+                row.createCell(2).setCellValue(bienThe.getCpu());
+                row.createCell(3).setCellValue(bienThe.getRam());
+                row.createCell(4).setCellValue(bienThe.getManHinh());
+                row.createCell(5).setCellValue(bienThe.getGpu());
+                row.createCell(6).setCellValue(bienThe.getoCung());
+                row.createCell(7).setCellValue(bienThe.getMauSac());
+                row.createCell(8).setCellValue(bienThe.getHeDieuHanh());
+                row.createCell(9).setCellValue(decimalFormat(bienThe.getGia()));
+                row.createCell(10).setCellValue(bienThe.getSoLuong());
+            }
+
+            try (FileOutputStream outputStream = new FileOutputStream(fileToSave)) { 
+                workbook.write(outputStream); 
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                workbook.close();
+                MsgBox.alert(getContentPane(), "Export file success");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
+        }
 	}
 }

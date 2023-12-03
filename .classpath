@@ -24,7 +24,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
 			<attribute name="module" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
@@ -107,5 +107,41 @@
 	<classpathentry kind="lib" path="D:/Windows/Servlet/apache-maven-3.9.3/lib/wagon-http-shared-3.5.3.jar"/>
 	<classpathentry kind="lib" path="D:/Windows/Servlet/apache-maven-3.9.3/lib/wagon-provider-api-3.5.3.jar"/>
 	<classpathentry kind="lib" path="D:/Windows/Servlet/apache-maven-3.9.3/boot/plexus-classworlds-2.7.0.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Calendar/lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/barcodes-7.1.4.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/barcodes-7.1.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/barcodes-7.1.4-sources.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/font-asian-7.1.4.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/forms-7.1.4.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/forms-7.1.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/forms-7.1.4-sources.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/html2pdf-3.0.3.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/html2pdf-5.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/hyph-7.1.4.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/io-7.1.4.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/io-7.1.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/io-7.1.4-sources.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/kernel-7.1.4.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/kernel-7.1.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/kernel-7.1.4-sources.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/kernel-7.1.14.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/layout-7.1.4.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/layout-7.1.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/layout-7.1.4-sources.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/pdfa-7.1.4.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/pdfa-7.1.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/pdfa-7.1.4-sources.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/pdftest-7.1.4.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/pdftest-7.1.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/pdftest-7.1.4-sources.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/sign-7.1.4.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/sign-7.1.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/sign-7.1.4-sources.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/styled-xml-parser-7.1.4.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/styled-xml-parser-7.1.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/styled-xml-parser-7.1.4-sources.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/svg-7.1.4.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/svg-7.1.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="D:/Windows/Apache/iText/svg-7.1.4-sources.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

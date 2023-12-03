@@ -56,12 +56,15 @@ public class Login extends JDialog {
 		contentPanel.add(lblMatKhau);
 		
 		txtTenDangNhap = new JTextField();
+		txtTenDangNhap.setText("ManhnnPH34757");
 		txtTenDangNhap.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		txtTenDangNhap.setBounds(20, 102, 334, 34);
 		contentPanel.add(txtTenDangNhap);
 		txtTenDangNhap.setColumns(10);
 		
 		txtMatKhau = new JPasswordField();
+		txtMatKhau.setToolTipText("Nhập mật khẩu");
+		txtMatKhau.setEchoChar('*');
 		txtMatKhau.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		txtMatKhau.setBounds(20, 197, 334, 34);
 		contentPanel.add(txtMatKhau);

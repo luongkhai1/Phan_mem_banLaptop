@@ -172,6 +172,11 @@ public class ShopLaptop365 extends JFrame {
 		toolBar.add(separator);
 		
 		JButton btnKhachHang = new JButton("Khách hàng");
+		btnKhachHang.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new QuanLyKhachHang().setVisible(true);
+			}
+		});
 		btnKhachHang.setForeground(new Color(0, 0, 0));
 		btnKhachHang.setBackground(new Color(255, 255, 255));
 		btnKhachHang.setIcon(new ImageIcon(ShopLaptop365.class.getResource("/com/shoplaptop/icon/Users.png")));
@@ -190,6 +195,11 @@ public class ShopLaptop365 extends JFrame {
 		toolBar.add(btnDonHang);
 		
 		JButton btnHoaDon = new JButton("Hóa đơn");
+		btnHoaDon.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new HoaDonManager().setVisible(true);
+			}
+		});
 		btnHoaDon.setForeground(new Color(0, 0, 0));
 		btnHoaDon.setBackground(new Color(255, 255, 255));
 		btnHoaDon.setIcon(new ImageIcon(ShopLaptop365.class.getResource("/com/shoplaptop/icon/Price list.png")));
@@ -213,6 +223,11 @@ public class ShopLaptop365 extends JFrame {
 		toolBar.add(btnLaptop);
 		
 		JButton btnPhieuGiamGia = new JButton("Phiếu giảm giá");
+		btnPhieuGiamGia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new PhieuGiamGiaUI().setVisible(true);
+			}
+		});
 		btnPhieuGiamGia.setForeground(new Color(0, 0, 0));
 		btnPhieuGiamGia.setBackground(new Color(255, 255, 255));
 		btnPhieuGiamGia.setIcon(new ImageIcon(ShopLaptop365.class.getResource("/com/shoplaptop/icon/Statistics.png")));
@@ -231,6 +246,11 @@ public class ShopLaptop365 extends JFrame {
 		toolBar.add(btnDotGiamGia);
 		
 		JButton btnPhieuDoi = new JButton("Phiếu đổi");
+		btnPhieuDoi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		btnPhieuDoi.setForeground(new Color(0, 0, 0));
 		btnPhieuDoi.setBackground(new Color(255, 255, 255));
 		btnPhieuDoi.setIcon(new ImageIcon(ShopLaptop365.class.getResource("/com/shoplaptop/icon/phieudoi.png")));
@@ -240,6 +260,11 @@ public class ShopLaptop365 extends JFrame {
 		toolBar.add(btnPhieuDoi);
 		
 		JButton btnNhanVien = new JButton("Nhân viên");
+		btnNhanVien.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new QLNhanVien().setVisible(true);
+			}
+		});
 		btnNhanVien.setForeground(new Color(0, 0, 0));
 		btnNhanVien.setBackground(new Color(255, 255, 255));
 		btnNhanVien.setIcon(new ImageIcon(ShopLaptop365.class.getResource("/com/shoplaptop/icon/User.png")));
