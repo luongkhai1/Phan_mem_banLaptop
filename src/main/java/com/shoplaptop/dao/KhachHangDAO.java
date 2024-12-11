@@ -25,6 +25,7 @@ public class KhachHangDAO implements ShopLaptop365DAO<KhachHang, String> {
 		String deleteKH_SQL="DELETE FROM KhachHang WHERE MaKH=?";
 		String selectBySDT = "SELECT * FROM KhachHang WHERE SoDienThoai like ? OR MaKH=? ";
 		String selectBySoDienThoai = "SELECT * FROM KhachHang WHERE SoDienThoai like ? ";
+		String selectHoaDonBySoDienThoai = "SELECT * FROM KhachHang WHERE SoDienThoai = ? ";
 		String selectByMaKH = "SELECT * FROM KhachHang WHERE MaKH=?";
 		String selectAll_SQL="SELECT * FROM KhachHang";
 		String query =  "SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY MaKH) AS rownum,  * FROM KhachHang) AS temp WHERE rownum BETWEEN ? AND ?";
@@ -139,6 +140,14 @@ public class KhachHangDAO implements ShopLaptop365DAO<KhachHang, String> {
 	}
 	public KhachHang selectBySoDienThoai(String SDT) {
 		List<KhachHang> list = this.selectBySQL(selectBySoDienThoai, SDT);
+		if (list.isEmpty()) {
+			return null;
+		}
+		return list.get(0);
+	}
+	
+	public KhachHang selectHoaDonBySoDienThoai(String SDT) {
+		List<KhachHang> list = this.selectBySQL(selectHoaDonBySoDienThoai, SDT);
 		if (list.isEmpty()) {
 			return null;
 		}

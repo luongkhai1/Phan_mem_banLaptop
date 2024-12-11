@@ -274,6 +274,7 @@ public class QLNhanVien extends JDialog {
 				setForm(service.selectById((String) tblquanlynhanvien.getValueAt(index, 0)));
 				setForm_1(dao.selectbymanhanvien((String) tblquanlynhanvien.getValueAt(index, 0)));
 				btnchitiet.setEnabled(true);
+				
 
 			}
 		});

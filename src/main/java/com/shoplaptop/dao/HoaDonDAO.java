@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.shoplaptop.entity.HoaDon;
+import com.shoplaptop.entity.KhachHang;
 import com.shoplaptop.utils.XJdbc;
 
 public class HoaDonDAO implements ShopLaptop365DAO<HoaDon, String> {
@@ -32,7 +33,18 @@ public class HoaDonDAO implements ShopLaptop365DAO<HoaDon, String> {
 			+ "			LEFT JOIN dbo.DotGiamGia ON DotGiamGia.MaDG = dbo.HoaDon.DotGiamGia\r\n"
 			+ "			JOIN dbo.NhanVien ON NhanVien.MaNV = HoaDon.MaNV "
 			+ "WHERE dbo.HoaDon.MaHD = ?";
-	
+	String selectMaKH = "SELECT HoaDon.ID, dbo.HoaDon.MaHD, HoaDon.MaKH,dbo.HinhThucVanChuyen.ID AS 'ID_HinhThucVanChuyen', dbo.HinhThucVanChuyen.HinhThuc AS 'HinhThucVanChuyen',dbo.HinhThucThanhToan.ID AS 'ID_HinhThucThanhToan',\r\n"
+			+ "	dbo.HinhThucThanhToan.HinhThuc AS 'HinhThucThanhToan',\r\n"
+			+ "	dbo.PhieuGiamGia.ID AS 'ID_PhieuGiamGia', PhieuGiamGia.MaPG, dbo.HoaDon.DotGiamGia,\r\n"
+			+ "	HoaDon.MaNV,\r\n"
+			+ "	dbo.HoaDon.NgayTao, dbo.HoaDon.TongTien, dbo.HoaDon.TienGiam, dbo.HoaDon.ThanhTien\r\n"
+			+ "FROM dbo.HoaDon JOIN  dbo.KhachHang ON KhachHang.MaKH = HoaDon.MaKH\r\n"
+			+ "			JOIN dbo.HinhThucVanChuyen ON HinhThucVanChuyen.ID = HoaDon.HinhThucVanChuyen\r\n"
+			+ "			JOIN dbo.HinhThucThanhToan ON HinhThucThanhToan.ID = HoaDon.HinhThucThanhToan\r\n"
+			+ "			LEFT JOIN dbo.PhieuGiamGia ON PhieuGiamGia.ID = HoaDon.PhieuGiamGia\r\n"
+			+ "			LEFT JOIN dbo.DotGiamGia ON DotGiamGia.MaDG = dbo.HoaDon.DotGiamGia\r\n"
+			+ "			JOIN dbo.NhanVien ON NhanVien.MaNV = HoaDon.MaNV "
+			+ "WHERE dbo.HoaDon.MaKH = ?";
 	@Override
 	public String insert(HoaDon entity) {
 		// TODO Auto-generated method stub
@@ -58,6 +70,12 @@ public class HoaDonDAO implements ShopLaptop365DAO<HoaDon, String> {
 			return null;
 		}
 		return list.get(0);
+	}
+	
+	public List<HoaDon> selectByMaKH(String maKH) {
+		
+		return this.selectBySQL(selectMaKH,maKH);
+		
 	}
 
 	@Override

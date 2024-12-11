@@ -8,6 +8,7 @@ import com.shoplaptop.entity.CTHoaDon;
 import com.shoplaptop.utils.XJdbc;
 
 public class CTHoaDonDAO implements ShopLaptop365DAO<CTHoaDon, Integer>{
+	
 	String SelectCTHoaDon_SQL = "SELECT CTHoaDon.ID, dbo.HoaDon.ID AS [ID_HoaDon], dbo.HoaDon.MaHD, dbo.CTHoaDon.ID_Serial, dbo.Serial.SerialNumber, dbo.Laptop.TenLaptop, dbo.BienThe.Gia FROM dbo.CTHoaDon JOIN dbo.HoaDon ON HoaDon.ID = CTHoaDon.MaHD JOIN dbo.Serial ON Serial.ID = CTHoaDon.ID_Serial JOIN dbo.BienThe ON BienThe.ID = Serial.ID_BienThe JOIN dbo.Laptop ON Laptop.ID = BienThe.ID_Laptop WHERE HoaDon.MaHD = ?";
 	String SelectCTHoaDon = "SELECT CTHoaDon.ID, dbo.HoaDon.ID AS [ID_HoaDon], dbo.HoaDon.MaHD, dbo.CTHoaDon.ID_Serial, dbo.Serial.SerialNumber, dbo.Laptop.TenLaptop, dbo.BienThe.Gia FROM dbo.CTHoaDon JOIN dbo.HoaDon ON HoaDon.ID = CTHoaDon.MaHD JOIN dbo.Serial ON Serial.ID = CTHoaDon.ID_Serial JOIN dbo.BienThe ON BienThe.ID = Serial.ID_BienThe JOIN dbo.Laptop ON Laptop.ID = BienThe.ID_Laptop WHERE CTHoaDon.ID = ?";
 	
@@ -41,8 +42,10 @@ public class CTHoaDonDAO implements ShopLaptop365DAO<CTHoaDon, Integer>{
 	@Override
 	public List<CTHoaDon> selectAll() {
 		
-		return null;
+		return this.selectBySQL(SelectCTHoaDon_SQL);
 	}
+		
+	
 	
 	public List<CTHoaDon> selectHoaDonByMaHoaDon(String MaHD) {
 		return this.selectBySQL(SelectCTHoaDon_SQL,MaHD);
